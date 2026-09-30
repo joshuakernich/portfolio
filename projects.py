@@ -7,7 +7,9 @@ GAMEBOX_TECH = ["Motion tracking", "LiDAR touch walls", "Projection"]
 PROJECTS = [
     {
         "slug": "batman",
-        "title": "Batman",
+        "title": "Batman at Immersive Gamebox",
+        "short": "Batman at Immersive Gamebox",
+        "year": "2025",
         "client": GAMEBOX,
         "group": "gamebox",
         "role": GAMEBOX_ROLE,
@@ -31,7 +33,6 @@ PROJECTS = [
     {
         "slug": "ghostbusters",
         "title": "Ghostbusters: The Cursed Collection",
-        "short": "Ghostbusters",
         "client": GAMEBOX,
         "group": "gamebox",
         "role": GAMEBOX_ROLE,
