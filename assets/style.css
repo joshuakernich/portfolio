@@ -144,6 +144,8 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; }
 .shot { border-radius: 12px; overflow: hidden; border: 2px solid var(--line); cursor: zoom-in; }
 .shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .3s; }
 .shot:hover img { transform: scale(1.04); }
+.gallery .shots.tall { grid-template-columns: repeat(auto-fill, minmax(min(45%, 170px), 1fr)); }
+.shots.tall .shot img { aspect-ratio: 9 / 19.5; }
 
 .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 64px; }
 .pager a { display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 2px solid var(--line); border-radius: var(--radius); text-decoration: none; font: 700 20px var(--display); background: var(--surface); transition: border-color .2s; }

@@ -165,7 +165,8 @@ def project_page(p, i):
         items = "".join(
             f'<a class="shot" href="{root}assets/img/{g}"><img src="{root}assets/img/{g}" alt="{e(p["title"])} screenshot" loading="lazy"></a>'
             for g in p["gallery"])
-        gallery = f'<section class="gallery"><h2 class="pixel small">Screenshots</h2><div class="shots">{items}</div></section>'
+        tall = " tall" if p.get("gallery_tall") else ""   # phone screenshots, shown at phone shape
+        gallery = f'<section class="gallery"><h2 class="pixel small">Screenshots</h2><div class="shots{tall}">{items}</div></section>'
     links = "".join(f'<a class="btn{" btn-ghost" if n else ""}" href="{e(u)}">{e(t)} ↗</a>'
                     for n, (t, u) in enumerate(p["links"]))
     prev_p = PROJECTS[i - 1]

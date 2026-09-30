@@ -171,6 +171,34 @@ PROJECTS = [
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/games/box-party")],
     },
     {
+        "slug": "tile-runner",
+        "title": "Tile Runner",
+        "client": "Own project",
+        "group": "own",
+        "role": "Designer & developer",
+        "year": "2026",
+        "players": "1",
+        "tech": ["HTML5 canvas", "Single-file web game", "Built with Claude Code", "Installs on iPhone"],
+        "colour": "blue",
+        "hero": "tile-runner-hero.jpg",
+        "summary": "A retro-pixel puzzle runner: the runner never stops, and you have three tiles to keep laying track ahead of it.",
+        "about": [
+            "Tile Runner: Quest for the Holy Talismans is a puzzle game for phones. The runner sets off and never stops. You have just three track tiles: as the runner clears each one it comes free, and you drag it to the front of the path to keep the track going and steer around walls, creatures and traps to the goal.",
+            "Gravity follows the track, so the runner runs sideways and upside-down as the path turns. There are 50 levels, and each new idea is taught through play. The whole game is a single HTML file with its own audio engine, and it installs on an iPhone home screen.",
+        ],
+        "did": [
+            "Designed the core mechanic, all 50 levels and the way each new idea is introduced",
+            "Built the whole game with Claude Code as a single HTML file: gameplay, art, audio engine and level editor",
+            "Made a set of small lab tools to tune each system on its own, from the runner's movement to the music",
+        ],
+        "gallery": ["tile-runner-1.jpg", "tile-runner-2.jpg", "tile-runner-3.jpg", "tile-runner-4.jpg", "tile-runner-5.jpg"],
+        "gallery_tall": True,
+        "links": [
+            ("Play Tile Runner", "https://joshuakernich.github.io/tile-runner/"),
+            ("Source on GitHub", "https://github.com/joshuakernich/tile-runner"),
+        ],
+    },
+    {
         "slug": "star-crew",
         "title": "Star Crew",
         "client": "Earthrise One",
@@ -221,7 +249,7 @@ PROJECTS = [
         "slug": "the-thought-that-counts",
         "title": "The Thought that Counts",
         "client": "Own project, with Kitney Hartstone Productions",
-        "group": "rooms",
+        "group": "own",
         "role": "Designer & developer",
         "year": "2021",
         "tech": ["Arcade installation", "Group play"],
@@ -334,6 +362,7 @@ PROJECTS = [
 
 GROUPS = {
     "gamebox": "Immersive Gamebox",
+    "own": "Own games",
     "rooms": "Installations & theatre",
     "learning": "Learning & health",
 }
