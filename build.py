@@ -87,11 +87,6 @@ def home():
       <a class="btn" href="#levels"><span class="blink">▶</span> Press start</a>
       <a class="btn btn-ghost" href="{CV}" download>Download CV</a>
     </div>
-    <ul class="stats">
-      <li><b>7</b><span>Gamebox games designed</span></li>
-      <li><b>15</b><span>years designing play</span></li>
-      <li><b>6</b><span>players per room, no controllers</span></li>
-    </ul>
   </div>
 </section>
 
