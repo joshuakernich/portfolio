@@ -152,7 +152,8 @@ def project_page(p, i):
         specs.append(("Status", p["status"]))
     spec_html = "".join(f"<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>" for k, v in specs)
     tech = "".join(f"<li>{e(t)}</li>" for t in p["tech"])
-    hero = (f'<img src="{root}assets/img/{p["hero"]}" alt="{e(p["title"])}">' if p["hero"]
+    pos = f' style="object-position: {p["hero_pos"]}"' if p.get("hero_pos") else ""
+    hero = (f'<img src="{root}assets/img/{p["hero"]}" alt="{e(p["title"])}"{pos}>' if p["hero"]
             else f'<div class="placeholder big"><span>{e(p["title"])}</span></div>')
     about = "".join(f"<p>{e(x)}</p>" for x in p["about"])
     did = "".join(f"<li>{e(x)}</li>" for x in p["did"])

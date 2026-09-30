@@ -89,7 +89,8 @@ PROJECTS = [
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
         "colour": "pink",
-        "hero": "escape-ai-2.jpg",
+        "hero": "escape-ai-4.jpg",
+        "hero_pos": "center 75%",
         "summary": "A cold case for the 22nd century: solve a decades-old murder with CCTV reconstruction and an AI guide.",
         "about": [
             "Escape AI is an immersive escape room. Players investigate a decades-old murder wrapped in a tech magnate's secrets, using Hindsight's CCTV reconstruction and their AI guide, Aya.",
@@ -99,7 +100,7 @@ PROJECTS = [
             "Designed how players interact with the reconstruction tools on the walls",
             "Prototyped and playtested the puzzle chain",
         ],
-        "gallery": ["escape-ai-4.jpg", "escape-ai-1.jpg", "escape-ai-3.jpg"],
+        "gallery": ["escape-ai-2.jpg", "escape-ai-1.jpg", "escape-ai-3.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/escape-ai")],
     },
     {
