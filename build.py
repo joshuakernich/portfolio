@@ -120,6 +120,7 @@ def home():
       <li><b>Gripable</b><span>Senior UX Designer · 2018–2021</span></li>
       <li><b>McGraw Hill</b><span>Learning Experience Designer &amp; Programmer · 2017–2019</span></li>
       <li><b>Macquarie University</b><span>Master of Education (Technology in Education) · 2016–2017</span></li>
+      <li><b>TAFE SA</b><span>Advanced Diploma in Multimedia · 2004–2005</span></li>
     </ul>
   </div>
 </section>
