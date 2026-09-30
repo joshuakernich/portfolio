@@ -82,7 +82,7 @@ def home():
   <div class="hero-inner">
     <p class="pixel eyebrow">Player 1 · Experience Designer</p>
     <h1>I design games you play with your <span class="hl">whole body</span>.</h1>
-    <p class="lede">I'm Joshua Kernich, an experience designer, technologist and storyteller. For 15 years I've made games and installations with motion tracking, LiDAR, AR, MIDI instruments and smart lights. Most recently I've been Director of Experience Design at Immersive Gamebox.</p>
+    <p class="lede">I'm Joshua Kernich, an experience designer, technologist and storyteller. For 15 years I've made games and installations with motion tracking, LiDAR, AR, lasers, MIDI instruments, smart lights and live theatre. Most recently I've been Director of Experience Design at Immersive Gamebox.</p>
     <div class="cta">
       <a class="btn" href="#levels"><span class="blink">▶</span> Press start</a>
       <a class="btn btn-ghost" href="{CV}" download>Download CV</a>
