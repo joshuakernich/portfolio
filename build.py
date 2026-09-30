@@ -78,7 +78,7 @@ def home():
     filters = "".join(f'<button class="chip" data-filter="{k}">{e(v)}</button>' for k, v in GROUPS.items())
     body = f"""
 <section class="hero">
-  <canvas class="blocks" aria-hidden="true"></canvas>
+  <canvas class="dancer" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <p class="pixel eyebrow">Player 1 · Experience Designer</p>
     <h1>I design experiences you play with your <span class="hl">whole body</span>.</h1>
