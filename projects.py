@@ -264,6 +264,29 @@ PROJECTS = [
         "links": [("Ahead of the Game", "https://aheadofthegame.movember.com/about/")],
     },
     {
+        "slug": "movember-conversations",
+        "title": "Movember Conversations",
+        "client": "Movember",
+        "group": "learning",
+        "role": "Learning Experience Designer",
+        "year": "2021",
+        "tech": ["Branching dialogue", "Interactive scenarios", "Web"],
+        "colour": "orange",
+        "hero": "conversations-hero.jpg",
+        "summary": "Practise the hard conversation before you have it: simulated chats with a mate who's struggling.",
+        "about": [
+            "Movember Conversations is a free online tool that helps people feel more confident talking with a man in their life who might be struggling. Users pick a scenario, such as job loss, social isolation or family pressure, and work through a simulated conversation, choosing what to say at each step and seeing where it leads.",
+            "It's built on the ALEC framework from R U OK? (Ask, Listen, Encourage action, Check in) and was developed with mental-health experts.",
+        ],
+        "did": [
+            "Designed the interactive conversation format and the branching dialogue",
+            "Worked with mental-health experts to turn the ALEC framework into scenarios people can practise",
+            "Designed the learning experience across the scenarios",
+        ],
+        "gallery": [],
+        "links": [("Try Movember Conversations", "https://conversations.movember.com/en/")],
+    },
+    {
         "slug": "family-man",
         "title": "Family Man",
         "client": "Movember",
@@ -283,10 +306,32 @@ PROJECTS = [
         "gallery": [],
         "links": [("Play Family Man", "https://familyman.movember.com/")],
     },
+    {
+        "slug": "gripable",
+        "title": "GripAble",
+        "client": "GripAble",
+        "group": "learning",
+        "role": "Senior UX Designer",
+        "year": "2018–2021",
+        "tech": ["Grip sensor controller", "Tablet app", "Rehab games"],
+        "colour": "cyan",
+        "hero": "gripable-hero.jpg",
+        "summary": "Hand and arm rehabilitation turned into games you play by squeezing, releasing and turning a smart grip.",
+        "about": [
+            "GripAble is a handheld rehabilitation device that grew out of research at Imperial College London. Force and motion sensors pick up grip, release and wrist movement, so patients with weakness in the hand, wrist or arm can do their therapy by playing games on a tablet, while they and their clinicians track progress.",
+        ],
+        "did": [
+            "Designed the app experience for patients and clinicians",
+            "Designed games and interfaces controlled entirely by grip and wrist movement",
+            "Designed for users with limited mobility, where every input costs effort",
+        ],
+        "gallery": ["gripable-2.jpg", "gripable-3.jpg"],
+        "links": [("GripAble", "https://gripable.co/")],
+    },
 ]
 
 GROUPS = {
     "gamebox": "Immersive Gamebox",
     "rooms": "Installations & theatre",
-    "learning": "Learning games",
+    "learning": "Learning & health",
 }
