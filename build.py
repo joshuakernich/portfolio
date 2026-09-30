@@ -122,7 +122,7 @@ def home():
       <li><b>McGraw Hill</b><span>Learning Experience Designer &amp; Programmer · 2017–2019</span></li>
       <li><b>Macquarie University</b><span>Master of Education (Technology in Education) · 2016–2017</span></li>
       <li><b>Gamelearn</b><span>Game Designer &amp; Developer · 2007–2016</span></li>
-      <li><b>TAFE SA</b><span>Advanced Diploma in Multimedia · 2004–2005</span></li>
+      <li><b>TAFE SA</b><span>Advanced Diploma in Multimedia · 2005–2006</span></li>
     </ul>
   </div>
 </section>

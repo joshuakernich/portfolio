@@ -9,7 +9,7 @@
 //   1. A front-view body (head, neck, chest, waist, pelvis, arms, hands, legs,
 //      feet) is built from smooth signed-distance shapes, in units of the
 //      figure's standing height (1.0 = head to toe).
-//   2. It's posed from a hand-authored eight-beat routine. Feet are planted
+//   2. It's posed from a hand-authored 32-beat routine of key poses. Feet are planted
 //      by solving each leg back from its foot, and limbs that swing toward
 //      the viewer are foreshortened, the way a real body looks from the front.
 //   3. The posed body's silhouette is traced (marching squares on the
@@ -24,12 +24,11 @@ import { deflateSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const OUT_FILE = fileURLToPath(new URL('../assets/dancer_sprites.js', import.meta.url));
-const BEATS = 8;                // length of the routine
 const FRAMES_PER_BEAT = 6;      // drawings per beat: about 12 a second at 116 bpm
 const BPM = 116;
 const UNITS = 1000;             // stored coordinates per standing height
 const GRID = 0.002;             // silhouette sampling step, in standing heights
-const SIMPLIFY_TOL = 0.0016;    // Douglas-Peucker tolerance, in standing heights
+const SIMPLIFY_TOL = 0.002;     // Douglas-Peucker tolerance, in standing heights
 
 const deg = Math.PI / 180;
 
@@ -99,7 +98,7 @@ const limbDir = (angle, out) => ({ x: out * Math.sin(angle * deg), y: -Math.cos(
 //   sway      pelvis left/right                lean      spine, degrees toward screen right
 //   drop      how far the hips sink            shTilt    shoulder line, + raises the right shoulder
 //   hipTilt   + raises the right hip           headTilt  + tips the head toward screen right
-//   footR/L   { x, lift }
+//   footR/L   { x, lift, kneeUp }: kneeUp 1 lifts the knee toward the viewer
 //   armR/L    { a, tilt, e, tiltF }: upper-arm angle from hanging, how far it swings toward the
 //             viewer, elbow bend (outward +), and how far the forearm points at the viewer
 function buildBody(p) {
@@ -122,10 +121,15 @@ function buildBody(p) {
     const D = Math.min(dist, THIGH + SHIN - 1e-4);
     const along = (THIGH * THIGH - SHIN * SHIN + D * D) / (2 * D);
     const bend = Math.sqrt(Math.max(THIGH * THIGH - along * along, 0));
-    const knee = { x: h.x + (dx / dist) * along + out * bend * 0.3, y: h.y + (dy / dist) * along + bend * 0.04 };
-    const lifted = p[side === 'R' ? 'footR' : 'footL'].lift;
+    const foot = p[side === 'R' ? 'footR' : 'footL'];
+    // Planted or stepping: both halves of the leg shorten as the knee bends toward the viewer.
+    const bent = { x: h.x + (dx / dist) * along + out * bend * 0.3, y: h.y + (dy / dist) * along + bend * 0.04 };
+    // A knee lift: the thigh points at the viewer (so it nearly vanishes) and the shin hangs at full length.
+    const raised = { x: a.x - (dx / dist) * SHIN + out * 0.02, y: a.y - (dy / dist) * SHIN };
+    const knee = { x: bent.x + (raised.x - bent.x) * foot.kneeUp, y: bent.y + (raised.y - bent.y) * foot.kneeUp };
+    const lifted = foot.lift;
     const onToe = Math.min(1, lifted / 0.02);       // a lifted foot hangs toe-down
-    const foot = { x: a.x + out * 0.012, y: a.y - 0.024 - onToe * 0.008 };
+    const sole = { x: a.x + out * 0.012, y: a.y - 0.024 - onToe * 0.008 };
     const calf = add(knee, { x: a.x - knee.x, y: a.y - knee.y }, 0.3);
     const shinA = Math.atan2(a.y - knee.y, a.x - knee.x);
     return unionAll([
@@ -133,7 +137,7 @@ function buildBody(p) {
       circle(knee, 0.04),
       roundCone(knee, a, 0.04, 0.026),
       ellipse(calf, 0.07, 0.04, shinA),
-      ellipse(foot, 0.037 - onToe * 0.008, 0.0215 + onToe * 0.008, out * -8 * deg),
+      ellipse(sole, 0.037 - onToe * 0.008, 0.0215 + onToe * 0.008, out * -8 * deg),
     ], 0.014);
   };
 
@@ -156,7 +160,6 @@ function buildBody(p) {
   const head = unionAll([
     ellipse(headC, 0.057, 0.07, headA),
     ellipse(add(headC, rot({ x: 0, y: -0.03 }, headA)), 0.045, 0.043, headA),
-    circle(add(headC, rot({ x: 0, y: 0.08 }, headA)), 0.023),   // a top-knot bun
     roundCone(add(neckBase, rot({ x: 0, y: -0.01 }, spine)), add(headC, rot({ x: 0, y: -0.035 }, headA)), 0.032, 0.029),
   ], 0.012);
 
@@ -199,73 +202,95 @@ function buildBody(p) {
 }
 
 // --- Routine -------------------------------------------------------------------
-// Smooth periodic curve through keyframes [beat, ...values], repeating every `period` beats.
-function curve(keys, beat, period) {
-  const n = keys.length;
-  const b = ((beat % period) + period) % period;
-  let i = n - 1;
-  for (let k = 0; k < n; k++) if (keys[k][0] <= b) i = k;
-  const k0 = keys[(i - 1 + n) % n], k1 = keys[i], k2 = keys[(i + 1) % n], k3 = keys[(i + 2) % n];
-  const t0 = k1[0], t1 = k2[0] <= t0 ? k2[0] + period : k2[0];
-  const t = (b - t0 + (b < t0 ? period : 0)) / (t1 - t0);
-  return k1.slice(1).map((v, c) => {
-    const a = k0[c + 1], d = k2[c + 1], e = k3[c + 1];
-    return 0.5 * ((2 * v) + (-a + d) * t + (2 * a - 5 * v + 4 * d - e) * t * t + (-a + 3 * v - 3 * d + e) * t * t * t);
-  });
-}
+// The dance is a list of key poses, one on (almost) every beat. Between keys
+// the figure moves quickly and then holds, so each pose lands on its beat.
 
-// Eased, non-overshooting path through keyframes: a planted foot stays exactly planted.
-function path(keys, beat, period) {
-  const n = keys.length;
-  const b = ((beat % period) + period) % period;
-  let i = n - 1;
-  for (let k = 0; k < n; k++) if (keys[k][0] <= b) i = k;
-  const k1 = keys[i], k2 = keys[(i + 1) % n];
-  const t0 = k1[0], t1 = k2[0] <= t0 ? k2[0] + period : k2[0];
-  const t = (b - t0 + (b < t0 ? period : 0)) / (t1 - t0);
-  const s = t * t * (3 - 2 * t);
-  return k1.slice(1).map((v, c) => v + (k2[c + 1] - v) * s);
-}
+// Arms: [angle from hanging, tilt toward the viewer, elbow bend, forearm tilt].
+const EASY = [16, 10, -40, 44], EASY_IN = [12, 8, -78, 34], EASY_OUT = [30, 14, 14, 30];
+const ON_HIP = [40, -6, -118, 12], POINT_UP = [150, 4, 2, 4], POINT_DOWN = [-28, 22, 4, 22];
+const ROOF = [138, 8, 34, 6], CLAP = [162, 6, 22, 6], OUT = [90, 0, 0, 0];
 
-// Step-touch, four beats a cycle: step right, left foot taps in; step left, right foot taps in.
-const FOOT_R = [[0, 0.13, 0], [2, 0.13, 0], [2.5, 0.06, 0.034], [3, -0.005, 0.014], [3.5, 0.065, 0.04]];
-const FOOT_L = FOOT_R.map(([b, x, lift]) => [(b + 2) % 4, -x, lift]).sort((p, q) => p[0] - q[0]);
-//                   beat  sway  hipTilt lean shTilt headTilt
-const WEIGHT = [[0, 0.082, 6, -3, -4, 3], [1, 0.09, 8, -5, -6, -2], [2, -0.082, -6, 3, 4, -3], [3, -0.09, -8, 5, 6, 2]];
+// Feet: [x, lift, kneeUp].
+const BASE = { sway: 0, hipTilt: 0, lean: 0, shTilt: 0, headTilt: 0, drop: 0.02,
+  footR: [0.11, 0, 0], footL: [-0.11, 0, 0], armR: EASY, armL: EASY };
+const pose = (o) => ({ ...BASE, ...o });
+const mirror = (o) => ({ ...o, sway: -o.sway, hipTilt: -o.hipTilt, lean: -o.lean, shTilt: -o.shTilt, headTilt: -o.headTilt,
+  footR: [-o.footL[0], o.footL[1], o.footL[2]], footL: [-o.footR[0], o.footR[1], o.footR[2]], armR: o.armL, armL: o.armR });
 
-// Arms over the full eight beats: [beat, angle, tilt, elbow, forearm tilt].
-// Relaxed groove: elbows bent, forearms swinging across the belly and back out.
-const EASY_IN = [12, 8, -78, 34], EASY = [16, 10, -40, 44], EASY_OUT = [30, 14, 14, 30];
-const ARM_R = [
-  [0, ...EASY_OUT], [1, ...EASY], [2, ...EASY_IN], [3, ...EASY], [3.5, 62, 10, 22, 30],
-  [4, 150, 4, 2, 4],              // point up and out
-  [5, -28, 22, 4, 22],            // point down across the body
-  [5.5, 34, 12, 132, 22],         // hands gather at the shoulders
-  [6, 138, 8, 34, 6],             // both arms up
-  [6.5, 104, 14, 66, 10],         // pump
-  [7, 162, 6, 22, 6],             // clap overhead
-  [7.5, 52, 12, 96, 26],          // elbows drop on the way down
+// 1. Step-touch: step right, left foot taps in; step left, right foot taps in.
+const step = pose({ sway: 0.082, hipTilt: 6, lean: -3, shTilt: -4, headTilt: 3, footR: [0.13, 0, 0], footL: [-0.13, 0, 0], armR: EASY_OUT, armL: EASY_IN });
+const touch = pose({ sway: 0.09, hipTilt: 8, lean: -5, shTilt: -6, headTilt: -2, footR: [0.13, 0, 0], footL: [0.005, 0.014, 0] });
+// 2. Disco: point to the sky, then down across the body, hips popping the other way.
+const discoUp = pose({ sway: -0.03, hipTilt: -7, lean: 5, shTilt: 8, headTilt: 6, drop: 0.014, footR: [0.12, 0, 0], footL: [-0.13, 0, 0], armR: POINT_UP, armL: ON_HIP });
+const discoDown = pose({ sway: 0.04, hipTilt: 7, lean: -4, shTilt: -6, headTilt: -6, drop: 0.032, footR: [0.12, 0, 0], footL: [-0.13, 0, 0], armR: POINT_DOWN, armL: ON_HIP });
+// 3. The floss: straight arms swing to one side while the hips swing to the other.
+const floss = pose({ sway: -0.045, hipTilt: -6, lean: 3, shTilt: 3, drop: 0.03, footR: [0.1, 0, 0], footL: [-0.1, 0, 0], armR: [38, 0, 0, 0], armL: [-36, 18, 0, 18] });
+// 4. Y, M, C, A.
+const letterY = pose({ drop: 0.012, armR: POINT_UP, armL: POINT_UP });
+const letterM = pose({ drop: 0.03, armR: [120, 6, 170, 10], armL: [120, 6, 170, 10] });
+const letterC = pose({ sway: 0.03, hipTilt: -4, lean: -6, headTilt: -5, armR: [165, 6, 60, 6], armL: [95, 0, -60, 0] });
+const letterA = pose({ drop: 0, footR: [0.16, 0, 0], footL: [-0.16, 0, 0], armR: CLAP, armL: CLAP });
+// 5. Knee lifts: step onto one leg, then drive the other knee up to the opposite elbow.
+const stepOn = pose({ sway: 0.06, hipTilt: 4, lean: -2, drop: 0.03, footR: [0.1, 0, 0], footL: [-0.1, 0, 0], armR: EASY_IN, armL: [70, 0, 70, 10] });
+const kneeUp = pose({ sway: 0.075, hipTilt: 9, lean: -5, shTilt: -5, drop: 0.008, footR: [0.1, 0, 0], footL: [-0.02, 0.2, 1], armR: [75, 0, 85, 10], armL: [25, 10, -60, 40] });
+// 6. Jumps: a star jump, then a tuck jump with the arms thrown up.
+const stand = pose({ drop: 0.015 });
+const squat = pose({ drop: 0.11, footR: [0.12, 0, 0], footL: [-0.12, 0, 0], armR: [22, -10, 20, 0], armL: [22, -10, 20, 0] });
+const star = pose({ drop: 0, footR: [0.24, 0.11, 0], footL: [-0.24, 0.11, 0], armR: [128, 0, 0, 0], armL: [128, 0, 0, 0] });
+const land = pose({ drop: 0.1, footR: [0.13, 0, 0], footL: [-0.13, 0, 0], armR: [45, 10, 60, 30], armL: [45, 10, 60, 30] });
+const tuck = pose({ drop: 0, footR: [0.08, 0.14, 0.6], footL: [-0.08, 0.14, 0.6], armR: ROOF, armL: ROOF });
+// 7. Arm wave: a ripple that runs from the left hand, across the shoulders, out the right hand.
+const wave = [
+  pose({ armL: OUT, armR: OUT }),
+  pose({ armL: [78, 0, 48, 0], armR: OUT, lean: -2, shTilt: 3 }),
+  pose({ armL: [112, 0, -44, 0], armR: OUT, lean: -3, shTilt: -9, headTilt: -4 }),
+  pose({ armL: [84, 0, -6, 0], armR: [84, 0, -6, 0], drop: 0.035 }),
+  pose({ armL: OUT, armR: [112, 0, -44, 0], lean: 3, shTilt: 9, headTilt: 4 }),
+  pose({ armL: OUT, armR: [78, 0, 48, 0], lean: 2, shTilt: -3 }),
+  pose({ armL: OUT, armR: OUT }),
+  pose({ armL: [60, 0, 20, 0], armR: [60, 0, 20, 0], drop: 0.03 }),
 ];
-const ARM_L = [
-  [0, ...EASY_IN], [1, ...EASY], [2, ...EASY_OUT], [3, ...EASY], [3.5, 30, 0, -70, 20],
-  [4, 40, -6, -118, 12],          // hand on hip
-  [5, 46, -6, -112, 12],
-  [5.5, 34, 12, 132, 22],
-  [6, 138, 8, 34, 6],
-  [6.5, 104, 14, 66, 10],
-  [7, 162, 6, 22, 6],
-  [7.5, 46, 12, 100, 28],
+// 8. Walk like an Egyptian, then a side kick to finish.
+const egyptian = pose({ sway: 0.05, hipTilt: 5, drop: 0.025, footR: [0.1, 0, 0], footL: [-0.1, 0, 0], armR: [90, 0, 90, 0], armL: [90, 0, -90, 0] });
+const finish = pose({ sway: -0.05, hipTilt: -8, lean: 8, shTilt: 6, headTilt: 5, drop: 0.005, footR: [0.34, 0.22, 0], footL: [-0.12, 0, 0], armR: POINT_UP, armL: [95, 0, 10, 0] });
+
+const KEYS = [
+  [0, step], [1, touch], [2, mirror(step)], [3, mirror(touch)],
+  [4, discoUp], [5, discoDown], [6, discoUp], [7, discoDown],
+  [8, floss], [8.5, mirror(floss)], [9, floss], [9.5, mirror(floss)], [10, floss], [10.5, mirror(floss)], [11, floss], [11.5, mirror(floss)],
+  [12, letterY], [13, letterM], [14, letterC], [15, letterA],
+  [16, stepOn], [17, kneeUp], [18, mirror(stepOn)], [19, mirror(kneeUp)],
+  [20, squat], [20.5, star], [21, land], [21.5, stand], [22, squat], [22.5, tuck], [23, land], [23.5, stand],
+  ...wave.map((w, i) => [24 + i / 2, w]),
+  [28, egyptian], [29, mirror(egyptian)], [30, egyptian], [30.5, mirror(egyptian)],
+  [31, finish],
 ];
+const BEATS = 32;               // length of the routine
+const SNAP = 0.8;               // fraction of the gap spent moving; the rest holds the pose
 
 function poseAt(beat) {
-  const [sway, hipTilt, lean, shTilt, headTilt] = curve(WEIGHT, beat, 4);
-  const [rx, rLift] = path(FOOT_R, beat, 4), [lx, lLift] = path(FOOT_L, beat, 4);
+  const b = ((beat % BEATS) + BEATS) % BEATS;
+  let i = KEYS.length - 1;
+  for (let k = 0; k < KEYS.length; k++) if (KEYS[k][0] <= b) i = k;
+  const [t0, from] = KEYS[i], [t1raw, to] = KEYS[(i + 1) % KEYS.length];
+  const t1 = t1raw <= t0 ? t1raw + BEATS : t1raw;
+  const t = Math.min(1, (b - t0) / (t1 - t0) / SNAP);
+  const s = t * t * (3 - 2 * t);
+  const mix = (a, c) => a + (c - a) * s;
+  const mixAll = (a, c) => a.map((v, k) => mix(v, c[k]));
+  const footOf = (a, c) => {
+    const [x, lift, kneeUp] = mixAll(a, c);
+    // A foot sliding along the floor picks itself up on the way.
+    const hop = a[1] < 0.005 && c[1] < 0.005 ? 0.035 * Math.sin(Math.PI * s) * Math.min(1, Math.abs(c[0] - a[0]) / 0.06) : 0;
+    return { x, lift: lift + hop, kneeUp };
+  };
   const armOf = ([a, tilt, e, tiltF]) => ({ a, tilt, e, tiltF });
   return {
-    sway, hipTilt, lean, shTilt, headTilt,
-    drop: 0.016 + 0.014 * (0.5 + 0.5 * Math.cos(beat * 2 * Math.PI)),   // sink into each beat
-    footR: { x: rx, lift: rLift }, footL: { x: lx, lift: lLift },
-    armR: armOf(curve(ARM_R, beat, BEATS)), armL: armOf(curve(ARM_L, beat, BEATS)),
+    sway: mix(from.sway, to.sway), hipTilt: mix(from.hipTilt, to.hipTilt), lean: mix(from.lean, to.lean),
+    shTilt: mix(from.shTilt, to.shTilt), headTilt: mix(from.headTilt, to.headTilt),
+    drop: mix(from.drop, to.drop) + 0.01 * (0.5 + 0.5 * Math.cos(beat * 2 * Math.PI)),   // sink into each beat
+    footR: footOf(from.footR, to.footR), footL: footOf(from.footL, to.footL),
+    armR: armOf(mixAll(from.armR, to.armR)), armL: armOf(mixAll(from.armL, to.armL)),
   };
 }
 

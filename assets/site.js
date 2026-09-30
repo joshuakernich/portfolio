@@ -24,25 +24,21 @@
     const draw = (index) => {
       const pts = sprites.frames[index];
       const narrow = w < 760;
-      const tall = Math.min(Math.min(h, fold) * (narrow ? 0.4 : 0.6), w * (narrow ? 0.5 : 0.3));  // standing height, px
+      const tall = Math.min(Math.min(h, fold) * (narrow ? 0.4 : 0.58), w * (narrow ? 0.5 : 0.28));  // standing height, px
       const cx = w * (narrow ? 0.76 : 0.82);
       const floor = Math.min(h * (narrow ? 0.97 : 0.9), fold - (narrow ? 24 : 48));
       const k = tall / sprites.units;
       ctx.clearRect(0, 0, w, h);
 
-      // A soft spotlight and a pool of light on the floor.
+      // A soft spotlight behind the figure.
       const glow = ctx.createRadialGradient(cx, floor - tall * 0.5, 0, cx, floor - tall * 0.5, tall * 0.75);
       glow.addColorStop(0, 'rgba(255, 90, 54, 0.13)');
       glow.addColorStop(1, 'rgba(255, 90, 54, 0)');
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = 'rgba(255, 210, 63, 0.06)';
-      ctx.beginPath();
-      ctx.ellipse(cx, floor, tall * 0.3, tall * 0.04, 0, 0, Math.PI * 2);
-      ctx.fill();
 
       // The figure: one continuous line.
-      const line = ctx.createLinearGradient(0, floor - tall * 1.2, 0, floor);
+      const line = ctx.createLinearGradient(0, floor - tall * 1.3, 0, floor);
       line.addColorStop(0, '#ff4fa3');
       line.addColorStop(1, '#ff5a36');
       ctx.beginPath();
