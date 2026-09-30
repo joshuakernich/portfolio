@@ -213,7 +213,7 @@ PROJECTS = [
             "Co-performed in it",
             "Programmed the lights and all the technology",
         ],
-        "gallery": ["technomancers-1.jpg", "technomancers-2.jpg"],
+        "gallery": [],
         "links": [("Culture Jam", "https://culturejam.com.au/events/questival/")],
     },
     {
