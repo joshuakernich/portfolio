@@ -1,4 +1,5 @@
 """Builds the static site from projects.py. Run: python3 build.py"""
+import hashlib
 from html import escape
 from pathlib import Path
 
@@ -10,6 +11,8 @@ EMAIL = "joshua.kernich@gmail.com"
 PHONE = "+61 430 568 985"
 LINKEDIN = "https://www.linkedin.com/in/joshua-kernich-79158431"
 CV = "cv/Joshua-Kernich-CV.pdf"
+# Changes whenever the CSS or JS changes, so browsers fetch the new files.
+VERSION = hashlib.md5((ROOT / "assets/style.css").read_bytes() + (ROOT / "assets/site.js").read_bytes()).hexdigest()[:8]
 
 e = escape
 
@@ -29,7 +32,7 @@ def page(title, description, body, root, path=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{root}assets/style.css">
+<link rel="stylesheet" href="{root}assets/style.css?v={VERSION}">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -49,7 +52,7 @@ def page(title, description, body, root, path=""):
   <p>© Joshua Kernich · <a href="mailto:{EMAIL}">{EMAIL}</a></p>
   <p class="pixel small">Thanks for playing</p>
 </footer>
-<script src="{root}assets/site.js" defer></script>
+<script src="{root}assets/site.js?v={VERSION}" defer></script>
 </body>
 </html>
 """
@@ -172,21 +175,16 @@ def project_page(p, i):
 <article class="project c-{p['colour']}">
   <a class="back" href="{root}#levels">◀ Level select</a>
   <div class="project-hero">{hero}</div>
-  <div class="project-grid">
-    <div class="project-main">
-      <p class="pixel level">LV {i + 1:02d}{' · ' + e(p['status']) if p.get('status') else ''}</p>
-      <h1>{e(p['title'])}</h1>
-      <p class="lede">{e(p['summary'])}</p>
-      {award}
-      <section><h2 class="pixel small">The game</h2>{about}</section>
-      <section><h2 class="pixel small">What I did</h2><ul class="did">{did}</ul></section>
-      <div class="cta">{links}</div>
-    </div>
-    <aside class="cartridge" aria-label="Project details">
-      <div class="cartridge-label"><span class="pixel">{e(p.get('short', p['title']))}</span></div>
-      <dl>{spec_html}</dl>
-      <ul class="tech">{tech}</ul>
-    </aside>
+  <div class="project-main">
+    <p class="pixel level">LV {i + 1:02d}{' · ' + e(p['status']) if p.get('status') else ''}</p>
+    <h1>{e(p['title'])}</h1>
+    <dl class="specs">{spec_html}</dl>
+    <ul class="tech">{tech}</ul>
+    <p class="lede">{e(p['summary'])}</p>
+    {award}
+    <section><h2 class="pixel small">The game</h2>{about}</section>
+    <section><h2 class="pixel small">What I did</h2><ul class="did">{did}</ul></section>
+    <div class="cta">{links}</div>
   </div>
   {gallery}
   <nav class="pager" aria-label="More projects">

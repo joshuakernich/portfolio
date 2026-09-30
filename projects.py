@@ -218,7 +218,7 @@ PROJECTS = [
     {
         "slug": "the-thought-that-counts",
         "title": "The Thought that Counts",
-        "client": "With Kitney Hartstone Productions",
+        "client": "Own project, with Kitney Hartstone Productions",
         "group": "rooms",
         "role": "Designer & developer",
         "year": "2021",
