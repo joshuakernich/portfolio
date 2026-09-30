@@ -12,12 +12,13 @@ PHONE = "+61 430 568 985"
 LINKEDIN = "https://www.linkedin.com/in/joshua-kernich-79158431"
 CV = "cv/Joshua-Kernich-CV.pdf"
 # Changes whenever the CSS or JS changes, so browsers fetch the new files.
-VERSION = hashlib.md5((ROOT / "assets/style.css").read_bytes() + (ROOT / "assets/site.js").read_bytes()).hexdigest()[:8]
+VERSION = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("style.css", "site.js", "dancer_sprites.js"))).hexdigest()[:8]
 
 e = escape
 
 
-def page(title, description, body, root, path=""):
+def page(title, description, body, root, path="", dancer=False):
+    sprites = f'<script src="{root}assets/dancer_sprites.js?v={VERSION}" defer></script>\n' if dancer else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -52,7 +53,7 @@ def page(title, description, body, root, path=""):
   <p>© Joshua Kernich · <a href="mailto:{EMAIL}">{EMAIL}</a></p>
   <p class="pixel small">Thanks for playing</p>
 </footer>
-<script src="{root}assets/site.js?v={VERSION}" defer></script>
+{sprites}<script src="{root}assets/site.js?v={VERSION}" defer></script>
 </body>
 </html>
 """
@@ -139,7 +140,7 @@ def home():
 """
     return page("Joshua Kernich · Experience Designer",
                 "Experience designer, technologist and storyteller. Games and installations played with the whole body.",
-                body, "")
+                body, "", dancer=True)
 
 
 def project_page(p, i):
