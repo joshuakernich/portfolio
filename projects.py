@@ -25,7 +25,7 @@ PROJECTS = [
             "Directed the art and supported the development team through production",
             "Worked directly with Warner Bros and the Batman design team through approvals",
         ],
-        "gallery": ["batman-driving.jpg", "batman-3.jpg"],
+        "gallery": ["batman-4.jpg", "batman-driving.jpg", "batman-5.jpg", "batman-3.jpg", "batman-6.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/batman")],
     },
     {
@@ -49,7 +49,7 @@ PROJECTS = [
             "Designed the HUD and interface for six players aiming at the same wall",
             "Prototyped and playtested the aiming and capture mechanics",
         ],
-        "gallery": ["ghostbusters-2.jpg", "ghostbusters-3.jpg"],
+        "gallery": ["ghostbusters-2.jpg", "ghostbusters-3.jpg", "ghostbusters-4.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/ghostbusters")],
     },
     {
@@ -73,7 +73,7 @@ PROJECTS = [
             "Set the 1991 art direction and designed the interface",
             "Prototyped and playtested the human-sized Tetris mechanics",
         ],
-        "gallery": [],
+        "gallery": ["tetris-1991-1.jpg", "tetris-1991-3.jpg", "tetris-1991-4.jpg", "tetris-1991-2.jpg"],
         "links": [
             ("Gameplay video", "https://www.youtube.com/watch?v=Xj1c2mwmndU"),
             ("Launch press", "https://www.amusementsandattractions.com/attractions/news/immersive-gamebox-adds-tetris-game"),
@@ -98,7 +98,7 @@ PROJECTS = [
             "Designed how players interact with the reconstruction tools on the walls",
             "Prototyped and playtested the puzzle chain",
         ],
-        "gallery": ["escape-ai-1.jpg", "escape-ai-3.jpg"],
+        "gallery": ["escape-ai-4.jpg", "escape-ai-1.jpg", "escape-ai-3.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/escape-ai")],
     },
     {
@@ -120,7 +120,7 @@ PROJECTS = [
             "Balanced the challenge for families and mixed-age groups",
             "Prototyped and playtested the movement mechanics",
         ],
-        "gallery": ["floor-is-lava-2.jpg"],
+        "gallery": ["floor-is-lava-6.jpg", "floor-is-lava-4.jpg", "floor-is-lava-5.jpg", "floor-is-lava-2.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/floor-is-lava")],
     },
     {
@@ -165,7 +165,7 @@ PROJECTS = [
             "Designed the leaderboard and competitive structure",
             "Prototyped and playtested each game with real groups",
         ],
-        "gallery": [],
+        "gallery": ["box-party-3.jpg", "box-party-4.jpg", "box-party-1.jpg", "box-party-2.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/games/box-party")],
     },
     {
@@ -187,7 +187,7 @@ PROJECTS = [
             "Designed the touch interfaces built on MIDI hardware",
             "Designed how the crew communicates through microphones",
         ],
-        "gallery": [],
+        "gallery": ["star-crew-1.jpg", "star-crew-3.jpg", "star-crew-2.jpg", "star-crew-4.jpg"],
         "links": [
             ("Earthrise One", "https://www.earthrise.one/star-crew"),
             ("Review", "https://www.mojonews.com.au/star-crew-escape-room-opens-review/"),
@@ -212,7 +212,7 @@ PROJECTS = [
             "Co-performed in it",
             "Programmed the lights and all the technology",
         ],
-        "gallery": [],
+        "gallery": ["technomancers-1.jpg", "technomancers-2.jpg"],
         "links": [("Culture Jam", "https://culturejam.com.au/events/questival/")],
     },
     {
@@ -236,7 +236,7 @@ PROJECTS = [
             "Won a $10,000 SA Arts grant to fund it",
             "Worked with a production team in Adelaide on the physical installation",
         ],
-        "gallery": [],
+        "gallery": ["the-thought-that-counts-1.jpg", "the-thought-that-counts-2.jpg", "the-thought-that-counts-3.jpg"],
         "links": [
             ("Review", "https://mindshare.org.au/review-the-thought-that-counts/"),
             ("CityMag feature", "https://www.indailysa.com.au/citymag/archive/2021/10/22/mind-invaders-the-arcade-game-offering-lessons-in-mental-health"),
@@ -260,7 +260,7 @@ PROJECTS = [
             "Worked with Movember's development and creative teams",
             "Worked with men's psychologists to get the content right",
         ],
-        "gallery": [],
+        "gallery": ["ahead-of-the-game-1.jpg", "ahead-of-the-game-2.jpg", "ahead-of-the-game-3.jpg"],
         "links": [("Ahead of the Game", "https://aheadofthegame.movember.com/about/")],
     },
     {
@@ -283,7 +283,7 @@ PROJECTS = [
             "Worked with mental-health experts to turn the ALEC framework into scenarios people can practise",
             "Designed the learning experience across the scenarios",
         ],
-        "gallery": [],
+        "gallery": ["movember-conversations-1.jpg", "movember-conversations-2.jpg"],
         "links": [("Try Movember Conversations", "https://conversations.movember.com/en/")],
     },
     {
@@ -294,7 +294,7 @@ PROJECTS = [
         "role": "Learning Experience Designer",
         "tech": ["Interactive video", "Branching narrative", "Online course"],
         "colour": "green",
-        "hero": None,
+        "hero": "family-man-hero.jpg",
         "summary": "A choose-your-own-adventure video game that teaches key parenting skills.",
         "about": [
             "Family Man is an online course built as a choose-your-own-adventure game. Parents make decisions through interactive video and see how different approaches play out.",
@@ -303,7 +303,7 @@ PROJECTS = [
             "Designed the branching narrative and the game structure",
             "Worked with child-behaviour experts, artists and developers",
         ],
-        "gallery": [],
+        "gallery": ["family-man-1.jpg", "family-man-3.jpg", "family-man-4.jpg", "family-man-5.jpg", "family-man-6.jpg"],
         "links": [("Play Family Man", "https://familyman.movember.com/")],
     },
     {
@@ -315,7 +315,7 @@ PROJECTS = [
         "year": "2018–2021",
         "tech": ["Grip sensor controller", "Tablet app", "Rehab games"],
         "colour": "cyan",
-        "hero": "gripable-hero.jpg",
+        "hero": "gripable-banner.jpg",
         "summary": "Hand and arm rehabilitation turned into games you play by squeezing, releasing and turning a smart grip.",
         "about": [
             "GripAble is a handheld rehabilitation device that grew out of research at Imperial College London. Force and motion sensors pick up grip, release and wrist movement, so patients with weakness in the hand, wrist or arm can do their therapy by playing games on a tablet, while they and their clinicians track progress.",
@@ -325,7 +325,7 @@ PROJECTS = [
             "Designed games and interfaces controlled entirely by grip and wrist movement",
             "Designed for users with limited mobility, where every input costs effort",
         ],
-        "gallery": ["gripable-2.jpg", "gripable-3.jpg"],
+        "gallery": ["gripable-6.jpg", "gripable-hero.jpg", "gripable-7.jpg", "gripable-2.jpg", "gripable-8.jpg", "gripable-9.jpg", "gripable-3.jpg", "gripable-4.jpg", "gripable-5.jpg"],
         "links": [("GripAble", "https://gripable.co/")],
     },
 ]
