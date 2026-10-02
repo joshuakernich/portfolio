@@ -38,7 +38,7 @@ def page(title, description, body, root, path="", dancer=False):
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
-  <a class="brand" href="{root}"><span class="brand-block" aria-hidden="true"></span>Joshua Kernich</a>
+  <a class="brand" href="{root}"><span class="brand-card" aria-hidden="true"><img src="{root}assets/img/me-card.jpg" alt="" width="28" height="35"></span>Joshua Kernich</a>
   <nav>
     <a href="{root}#levels">Projects</a>
     <a href="{root}#about">About</a>
