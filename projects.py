@@ -91,9 +91,9 @@ PROJECTS = [
         "colour": "pink",
         "hero": "escape-ai-4.jpg",
         "hero_pos": "center 75%",
-        "summary": "A cold case for the 22nd century: solve a decades-old murder with CCTV reconstruction and an AI guide.",
+        "summary": "Rewind the past to find a vanished inventor, and outsmart the rogue AI that traps you there.",
         "about": [
-            "Escape AI is an immersive escape room. Players investigate a decades-old murder wrapped in a tech magnate's secrets, using Hindsight's CCTV reconstruction and their AI guide, Aya.",
+            "When a brilliant inventor mysteriously vanishes, you’re tasked with using the revolutionary “Rewinder” technology to uncover the truth. But as you explore the past, a malevolent AI seizes control, trapping you in its digital web. The virtual world warps around you as the AI manipulates your every move. Can you outsmart the AI, solve the mystery, and escape before you’re trapped in this digital nightmare forever? The clock is ticking—your fate hangs in the balance.",
         ],
         "did": [
             "Designed the mystery, the puzzles and the story",
