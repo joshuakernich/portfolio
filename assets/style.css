@@ -129,6 +129,10 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; }
 .project section h2 { color: var(--c); margin-bottom: 14px; }
 .project-main p:not(.level) { color: #d8d5ce; font-size: 17px; max-width: 65ch; }
 .award { display: inline-block; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 15px !important; margin-top: 22px; }
+.scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: 12px; margin: 0; }
+.scores div { background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.scores dt { font: 700 clamp(28px, 3.6vw, 38px)/1.05 var(--display); letter-spacing: -.01em; color: var(--c); }
+.scores dd { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
 .did { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .did li { position: relative; padding-left: 28px; font-size: 17px; }
 .did li::before { content: ""; position: absolute; left: 0; top: .45em; width: 12px; height: 12px; background: var(--c); }

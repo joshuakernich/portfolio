@@ -108,7 +108,7 @@ def home():
   <div class="about-text">
     <h2><span class="pixel">About the player</span></h2>
     <p>I bring storytelling, game design, music and technology together to make experiences people play with each other, not just with a screen.</p>
-    <p>At Immersive Gamebox I led the development team and ran the whole creative process for each game, from storyboards and prototypes to launch in venues internationally. Before that, I designed products and learning experiences at Orbit29, Movember, Gripable, McGraw Hill and Gamelearn. I also make my own installations and shows.</p>
+    <p>At Immersive Gamebox I led the development team and ran the whole creative process for each game, from storyboards and prototypes to launch in venues internationally. Immersive Gamebox has had more than 2 million players worldwide. Before that, I designed products and learning experiences at Orbit29, Movember, Gripable, McGraw Hill and Gamelearn. I also make my own installations and shows.</p>
     <h3 class="pixel small">Inventory</h3>
     <ul class="inventory">
       <li>Game design</li><li>Narrative</li><li>UI / HUD</li><li>Storyboards</li><li>Hi-fi prototypes</li><li>Playtesting</li><li>Art direction</li><li>Unity</li><li>Figma</li><li>Photoshop</li><li>Illustrator</li><li>HTML / CSS / JS</li><li>DMX &amp; MIDI</li><li>LiDAR &amp; motion tracking</li>
@@ -160,6 +160,10 @@ def project_page(p, i):
     about = "".join(f"<p>{e(x)}</p>" for x in p["about"])
     did = "".join(f"<li>{e(x)}</li>" for x in p["did"])
     award = f'<p class="award">🏆 {e(p["award"])}</p>' if p.get("award") else ""
+    stats = ""
+    if p.get("stats"):
+        tiles = "".join(f"<div><dt>{e(n)}</dt><dd>{e(t)}</dd></div>" for n, t in p["stats"])
+        stats = f'<section class="stats"><h2 class="pixel small">High scores</h2><dl class="scores">{tiles}</dl></section>'
     gallery = ""
     if p["gallery"]:
         items = "".join(
@@ -182,6 +186,7 @@ def project_page(p, i):
     <ul class="tech">{tech}</ul>
     <p class="lede">{e(p['summary'])}</p>
     {award}
+    {stats}
     <section><h2 class="pixel small">The game</h2>{about}</section>
     <section><h2 class="pixel small">What I did</h2><ul class="did">{did}</ul></section>
     <div class="cta">{links}</div>

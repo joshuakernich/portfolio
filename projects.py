@@ -3,6 +3,8 @@
 GAMEBOX = "Immersive Gamebox"
 GAMEBOX_ROLE = "Lead designer · Director of Experience Design"
 GAMEBOX_TECH = ["Motion tracking", "LiDAR touch walls", "Projection"]
+# Shown on every Gamebox game: it's for the whole company, not one game.
+GAMEBOX_STATS = [("2 million+", "players worldwide, across all Immersive Gamebox games")]
 
 PROJECTS = [
     {
@@ -15,6 +17,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "yellow",
         "hero": "batman-hero.jpg",
         "summary": "A one-hour co-op adventure in the Batcave: solve puzzles, battle villains and drive the Batmobile to save Gotham.",
@@ -38,6 +41,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "green",
         "hero": "ghostbusters-1.jpg",
         "summary": "Strap on a proton pack and recover cursed artefacts across a haunted New York.",
@@ -61,6 +65,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "cyan",
         "status": "No longer running",
         "hero": "tetris-room.jpg",
@@ -88,6 +93,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "pink",
         "hero": "escape-ai-4.jpg",
         "hero_pos": "center 75%",
@@ -111,6 +117,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "orange",
         "hero": "floor-is-lava-hero.jpg",
         "summary": "Work together to dodge the lava and climb the volcano.",
@@ -133,6 +140,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "blue",
         "year": "2026",
         "hero": "football-hero.jpg",
@@ -156,6 +164,7 @@ PROJECTS = [
         "role": GAMEBOX_ROLE,
         "players": "Up to 6",
         "tech": GAMEBOX_TECH,
+        "stats": GAMEBOX_STATS,
         "colour": "purple",
         "hero": "box-party-hero.jpg",
         "summary": "Battle, race and puzzle through wild, physical party games to top the leaderboard.",
@@ -302,6 +311,12 @@ PROJECTS = [
         "colour": "orange",
         "hero": "conversations-hero.jpg",
         "summary": "Practise the hard conversation before you have it: simulated chats with a mate who's struggling.",
+        "stats": [
+            ("650,000+", "unique users"),
+            ("100+", "countries"),
+            ("87%", "of users better understood how to reach out to men"),
+            ("78%", "felt more confident to reach out to men"),
+        ],
         "about": [
             "Movember Conversations is a free online tool that helps people feel more confident talking with a man in their life who might be struggling. Users pick a scenario, such as job loss, social isolation or family pressure, and work through a simulated conversation, choosing what to say at each step and seeing where it leads.",
             "It's built on the ALEC framework from R U OK? (Ask, Listen, Encourage action, Check in) and was developed with mental-health experts.",
@@ -324,6 +339,7 @@ PROJECTS = [
         "colour": "green",
         "hero": "family-man-hero.jpg",
         "summary": "A choose-your-own-adventure video game that teaches key parenting skills.",
+        "stats": [("600,000+", "people have used the programme")],
         "about": [
             "Family Man is an online course built as a choose-your-own-adventure game. Parents make decisions through interactive video and see how different approaches play out.",
         ],
@@ -345,6 +361,7 @@ PROJECTS = [
         "colour": "cyan",
         "hero": "gripable-banner.jpg",
         "summary": "Hand and arm rehabilitation turned into games you play by squeezing, releasing and turning a smart grip.",
+        "stats": [("8,000+", "people have used it, across multiple countries")],
         "about": [
             "GripAble is a handheld rehabilitation device that grew out of research at Imperial College London. Force and motion sensors pick up grip, release and wrist movement, so patients with weakness in the hand, wrist or arm can do their therapy by playing games on a tablet, while they and their clinicians track progress.",
         ],
