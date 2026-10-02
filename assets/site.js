@@ -2,13 +2,41 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // The dancer is a sprite sheet (assets/dancer_sprites.js, baked by tools/make_dancer_sprites.mjs):
-  // each frame is one closed outline of the whole figure, drawn as a single line and played stepped.
+  // The dancer is a sprite sheet (assets/dancer_sprites.js, baked by tools/make_dancer_sprites.mjs from
+  // a 3D figure): each frame is the figure's silhouette, played stepped. It's filled in the page's own
+  // background colour in front of a glow, so it only shows as a shape cut out of the light.
   const canvas = document.querySelector('.dancer');
   const sprites = window.DANCER_SPRITES;
   if (canvas && sprites) {
     const ctx = canvas.getContext('2d');
     const STILL = 4 * sprites.framesPerBeat;   // the disco point, for visitors who prefer no motion
+    const bg = getComputedStyle(document.body).backgroundColor;
+
+    // A frame's outlines are polyline-encoded (dx, dy) steps, separated by spaces. Each becomes a
+    // smooth closed curve through the midpoints of its edges, with y flipped to point down.
+    const paths = [];
+    const pathOf = (index) => {
+      if (paths[index]) return paths[index];
+      const path = new Path2D();
+      for (const outline of sprites.frames[index].split(' ')) {
+        const pts = [];
+        let x = 0, y = 0;
+        for (let i = 0; i < outline.length;) {
+          for (let k = 0; k < 2; k++) {
+            let v = 0, shift = 0, c;
+            do { c = outline.charCodeAt(i++) - 63; v |= (c & 31) << shift; shift += 5; } while (c >= 32);
+            const d = v & 1 ? ~(v >> 1) : v >> 1;
+            k ? (y -= d) : (x += d);
+          }
+          pts.push([x, y]);
+        }
+        const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        path.moveTo(...mid(pts[pts.length - 1], pts[0]));
+        pts.forEach((p, i) => path.quadraticCurveTo(p[0], p[1], ...mid(p, pts[(i + 1) % pts.length])));
+        path.closePath();
+      }
+      return (paths[index] = path);
+    };
 
     let w = 0, h = 0, fold = 0, shown = -1;
     const resize = () => {
@@ -22,38 +50,33 @@
     };
 
     const draw = (index) => {
-      const pts = sprites.frames[index];
       const narrow = w < 760;
       const tall = Math.min(Math.min(h, fold) * (narrow ? 0.4 : 0.58), w * (narrow ? 0.5 : 0.28));  // standing height, px
       const cx = w * (narrow ? 0.76 : 0.82);
       const floor = Math.min(h * (narrow ? 0.97 : 0.9), fold - (narrow ? 24 : 48));
-      const k = tall / sprites.units;
       ctx.clearRect(0, 0, w, h);
 
-      // A soft spotlight behind the figure.
-      const glow = ctx.createRadialGradient(cx, floor - tall * 0.5, 0, cx, floor - tall * 0.5, tall * 0.75);
-      glow.addColorStop(0, 'rgba(255, 90, 54, 0.13)');
-      glow.addColorStop(1, 'rgba(255, 90, 54, 0)');
+      // The light behind the dancer: brightest behind the chest, and a little taller than it is wide.
+      ctx.save();
+      ctx.translate(cx, floor - tall * 0.52);
+      ctx.scale(1, 1.25);
+      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, tall * 0.82);
+      glow.addColorStop(0, 'rgba(255, 112, 70, 0.66)');
+      glow.addColorStop(0.4, 'rgba(255, 90, 54, 0.34)');
+      glow.addColorStop(0.75, 'rgba(255, 79, 163, 0.09)');
+      glow.addColorStop(1, 'rgba(255, 79, 163, 0)');
       ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = narrow ? 0.6 : 1;      // softer behind the text on phones
+      ctx.fillRect(-w, -h, 2 * w, 2 * h);
+      ctx.restore();
 
-      // The figure: one continuous line.
-      const line = ctx.createLinearGradient(0, floor - tall * 1.3, 0, floor);
-      line.addColorStop(0, '#ff4fa3');
-      line.addColorStop(1, '#ff5a36');
-      ctx.beginPath();
-      ctx.moveTo(cx + pts[0] * k, floor - pts[1] * k);
-      for (let i = 2; i < pts.length; i += 2) ctx.lineTo(cx + pts[i] * k, floor - pts[i + 1] * k);
-      ctx.closePath();
-      ctx.lineJoin = 'round';
-      ctx.lineWidth = narrow ? 2 : 2.5;
-      ctx.strokeStyle = line;
-      ctx.shadowColor = 'rgba(255, 90, 54, 0.75)';
-      ctx.shadowBlur = narrow ? 8 : 14;
-      ctx.globalAlpha = narrow ? 0.45 : 0.95;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
+      // The figure, in the background colour.
+      ctx.save();
+      ctx.translate(cx, floor);
+      ctx.scale(tall / sprites.units, tall / sprites.units);
+      ctx.fillStyle = bg;
+      ctx.fill(pathOf(index), 'evenodd');
+      ctx.restore();
     };
 
     const frame = (now) => {
