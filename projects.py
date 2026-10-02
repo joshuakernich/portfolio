@@ -103,8 +103,8 @@ PROJECTS = [
         ],
         "did": [
             "Designed the mystery, the puzzles and the story",
-            "Designed how players interact with the reconstruction tools on the walls",
             "Prototyped and playtested the puzzle chain",
+            "Managed the development team from conception, through design, to delivery",
         ],
         "gallery": ["escape-ai-2.jpg", "escape-ai-1.jpg", "escape-ai-3.jpg"],
         "links": [("Play it at Immersive Gamebox", "https://www.immersivegamebox.com/en-GB/escape-ai")],
