@@ -13,6 +13,7 @@ LINKEDIN = "https://www.linkedin.com/in/joshua-kernich-79158431"
 CV = "cv/Joshua-Kernich-CV.pdf"
 # Changes whenever the CSS or JS changes, so browsers fetch the new files.
 VERSION = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("style.css", "site.js", "dancer_sprites.js"))).hexdigest()[:8]
+CARD_VERSION = hashlib.md5((ROOT / "assets" / "img" / "me-card.jpg").read_bytes()).hexdigest()[:8]   # the header photo
 
 e = escape
 
@@ -38,7 +39,7 @@ def page(title, description, body, root, path="", dancer=False):
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
-  <a class="brand" href="{root}"><span class="brand-card" aria-hidden="true"><img src="{root}assets/img/me-card.jpg" alt="" width="52" height="52"></span>Joshua Kernich</a>
+  <a class="brand" href="{root}"><span class="brand-card" aria-hidden="true"><img src="{root}assets/img/me-card.jpg?v={CARD_VERSION}" alt="" width="52" height="52"></span>Joshua Kernich</a>
   <nav>
     <a href="{root}#levels">Projects</a>
     <a href="{root}#about">About</a>
