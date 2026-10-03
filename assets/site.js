@@ -51,10 +51,12 @@
 
     const draw = (index) => {
       const narrow = w < 760;
-      const tall = Math.min(Math.min(h, fold) * (narrow ? 0.4 : 0.58), w * (narrow ? 0.5 : 0.28));  // standing height, px
+      const view = fold > 160 ? Math.min(h, fold) : h;   // ignore the fold if the window had no real height yet
+      const tall = Math.min(view * (narrow ? 0.4 : 0.58), w * (narrow ? 0.5 : 0.28));  // standing height, px
       const cx = w * (narrow ? 0.76 : 0.82);
-      const floor = Math.min(h * (narrow ? 0.97 : 0.9), fold - (narrow ? 24 : 48));
+      const floor = Math.min(h * (narrow ? 0.97 : 0.9), view - (narrow ? 24 : 48));
       ctx.clearRect(0, 0, w, h);
+      if (tall < 1) return;
 
       // The light behind the dancer: brightest behind the chest, and a little taller than it is wide.
       ctx.save();
@@ -80,9 +82,9 @@
     };
 
     const frame = (now) => {
+      requestAnimationFrame(frame);
       const index = Math.floor((now / 1000) * sprites.fps) % sprites.frames.length;
       if (index !== shown) { shown = index; draw(index); }
-      requestAnimationFrame(frame);
     };
 
     resize();

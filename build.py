@@ -38,7 +38,7 @@ def page(title, description, body, root, path="", dancer=False):
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
-  <a class="brand" href="{root}"><span class="brand-card" aria-hidden="true"><img src="{root}assets/img/me-card.jpg" alt="" width="28" height="35"></span>Joshua Kernich</a>
+  <a class="brand" href="{root}"><span class="brand-card" aria-hidden="true"><img src="{root}assets/img/me-card.jpg" alt="" width="60" height="60"></span>Joshua Kernich</a>
   <nav>
     <a href="{root}#levels">Projects</a>
     <a href="{root}#about">About</a>
@@ -82,8 +82,8 @@ def home():
   <canvas class="dancer" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <p class="pixel eyebrow">Player 1 · Experience Designer</p>
-    <h1>I design experiences you play with your <span class="hl">whole body</span>.</h1>
-    <p class="lede">I'm Joshua Kernich, an experience designer, technologist and storyteller. For 19 years I've made games, installations and live performances with motion tracking, LiDAR, AR, lasers, MIDI instruments, and smart lights. Most recently I've been Director of Experience Design at Immersive Gamebox.</p>
+    <h1>I design play for the <span class="hl">whole body</span>.</h1>
+    <p class="lede">I'm Joshua Kernich, an experience designer, technologist and storyteller. For 19 years I've designed education, games and installations with motion tracking, LiDAR, AR, lasers, MIDI instruments, and smart lights. Most recently I've been Director of Experience Design at Immersive Gamebox.</p>
     <div class="cta">
       <a class="btn" href="#levels"><span class="blink">▶</span> Press start</a>
       <a class="btn btn-ghost" href="{CV}" download>Download CV</a>
