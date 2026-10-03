@@ -190,7 +190,7 @@ const JOINS = [
 
 // Finger curls (index to little finger), the thumb's curl, then how far the fingers spread: all 0 to 1.
 const HANDS = {
-  relaxed: [0.35, 0.4, 0.45, 0.5, 0.25, 0.1],
+  relaxed: [0.12, 0.15, 0.18, 0.22, 0.15, 0.08],
   fist: [1, 1, 1, 1, 1, 0],
   point: [0, 1, 1, 1, 1, 0],
   flat: [0, 0, 0, 0, 0.1, 0],
@@ -221,10 +221,12 @@ function handSolids(f, shape) {
     digit(V(-0.002, g.y, g.z), apply(tip(g.fan * shape[5]), DOWN), [0.45, 0.3, 0.25].map((k) => k * g.len),
       [curl(65), curl(95), curl(60)], 0.0058, 0.9);
   });
+  // The thumb rests along the index finger, swings out as the hand spreads, and wraps across a fist.
   const t = shape[4];
+  const blend = (a, b, k) => add(mul(a, 1 - k), mul(b, k));
+  const thumb = unit(blend(blend(V(-0.15, -0.9, 0.4), V(-0.2, -0.6, 0.75), shape[5]), V(-0.7, -0.6, -0.25), t));
   const toPalm = (d) => (v) => apply(turn(cross(v, V(-1, 0, 0)), d), v);
-  digit(V(-0.006, -0.016, 0.019), unit(V(-0.25 - 0.45 * t, -0.6, 0.75 - 0.95 * t)), [0.03, 0.026],
-    [toPalm(0), toPalm(10 + 25 * t)], 0.0078, 0.88);
+  digit(V(-0.006, -0.016, 0.019), thumb, [0.03, 0.026], [toPalm(0), toPalm(10 + 25 * t)], 0.0078, 0.88);
   return solids;
 }
 
@@ -318,7 +320,7 @@ function buildBody(p, late) {
     egg(head, [0, 0.038, 0.018], [0.042, 0.045, 0.042]),           // cheeks
     egg(head, [0, 0.015, 0.02], [0.04, 0.03, 0.035]),              // jaw
     egg(head, [0, 0.008, 0.045], [0.022, 0.016, 0.018]),           // chin
-    capsule(head, [0, 0.062, 0.056], [0, 0.038, 0.074], 0.008, 0.0065),  // nose
+    capsule(head, [0, 0.058, 0.054], [0, 0.041, 0.066], 0.009, 0.0085),  // nose, with a rounded tip
     egg(head, [0.049, 0.05, -0.004], [0.01, 0.019, 0.012]),        // ears
     egg(head, [-0.049, 0.05, -0.004], [0.01, 0.019, 0.012]));
 
@@ -384,8 +386,8 @@ function silhouette(parts) {
 }
 
 // --- Routine -----------------------------------------------------------------------
-// The dance is a list of key poses, one on (almost) every beat. Between keys the
-// figure moves quickly and then holds, so each pose lands on its beat.
+// The dance is a list of key poses, one on (almost) every beat. The figure flows
+// through them on smooth curves, landing each pose on its beat.
 //
 // Arms: arm(raise, fwd, bend, roll, hand, wrist, pron, shrug)
 //   raise  the upper arm's angle up from hanging: 90 is level with the shoulder, 180 straight up
@@ -425,7 +427,7 @@ const foot = (x, z = 0, lift = 0, heel = 0, toeOut = 8) => ({ x, z, lift, heel, 
 // Pose:
 //   yaw       which way the dancer faces: 0 is the camera, 90 screen right, 180 away
 //   spin      on a key: turn this far to reach it, instead of the shortest way round
-//   glide     on a key: move to it at an even speed, without easing or holding
+//   glide     on a key: keep full speed through it (for an even turn)
 //   x, z      the hips over the floor, in the dancer's own facing (sway, and stepping forward)
 //   drop      how far the hips sink below straight legs
 //   hipTilt   + raises the screen-right hip             hipTwist  turns the hips, on top of yaw
@@ -439,7 +441,7 @@ const mirror = (o) => ({ ...o, yaw: -o.yaw, spin: o.spin && -o.spin, x: -o.x, hi
   lean: -o.lean, twist: -o.twist, headTilt: -o.headTilt, turn: -o.turn,
   footR: { ...o.footL, x: -o.footL.x }, footL: { ...o.footR, x: -o.footR.x }, armR: o.armL, armL: o.armR });
 
-const HAND_ON_HIP = reach([0.16, -0.1, -0.01], [1, 0, -0.6]);
+const HAND_ON_HIP = reach([0.16, -0.1, -0.01], [1, 0, -0.6], 'flat');
 
 // 1. Step-touch, turning into each step: fists up beside the head on the step, punched down and out on the touch.
 const step = pose({ yaw: 20, x: 0.07, hipTilt: 5, lean: -3, twist: 8, headTilt: 3, footR: foot(0.15), footL: foot(-0.11),
@@ -468,11 +470,13 @@ const kneeUp = pose({ yaw: -25, x: 0.075, hipTilt: 9, lean: -5, twist: -20, bend
 const squat = pose({ drop: 0.11, bend: 15, footR: foot(0.12), footL: foot(-0.12), armR: arm(25, -30, 20), armL: arm(25, -30, 20) });
 const star = pose({ drop: 0, footR: foot(0.24, 0, 0.11), footL: foot(-0.24, 0, 0.11), armR: arm(130, 0, 0, 0, 'spread'), armL: arm(130, 0, 0, 0, 'spread') });
 const land = pose({ drop: 0.1, bend: 10, footR: foot(0.13), footL: foot(-0.13), armR: arm(45, 40, 60), armL: arm(45, 40, 60) });
-const prep = pose({ drop: 0.06, x: 0.03, footR: foot(0.05), footL: foot(-0.13, 0.03), armR: arm(80, 70, 70), armL: arm(80, -10, 15) });
-// Up on the ball of one foot, the other at its knee, arms overhead. `glide` keeps the turn moving at an even speed.
-const pirouette = (yaw) => pose({ yaw, spin: 90, glide: true, drop: 0.005, footR: foot(0, 0, 0, 1, 0), footL: foot(-0.03, 0.03, 0.23, 0, 55),
-  armR: reach([0.04, 0.33, 0.04], [1, 0.3, 0.3]), armL: reach([0.04, 0.33, 0.04], [1, 0.3, 0.3]) });
-const spun = pose({ spin: 90, glide: true, drop: 0.05, footR: foot(0.12), footL: foot(-0.12), armR: arm(60, 10, 15, 0, 'spread'), armL: arm(60, 10, 15, 0, 'spread') });
+const prep = pose({ drop: 0.06, x: 0.03, footR: foot(0.05), footL: foot(-0.13, 0.03), armR: arm(80, 70, 70), armL: arm(75, 30, 40) });
+// Up on the ball of one foot, the other at its knee: arms rounded in front, then overhead.
+// `glide` keeps the turn moving at an even speed.
+const ROUNDED = reach([0.04, -0.02, 0.2], [1, 0.1, -0.2]), OVERHEAD = reach([0.07, 0.31, 0.05], [1, 0.3, 0.3]);
+const pirouette = (yaw, arms) => pose({ yaw, spin: 90, glide: true, drop: 0.005, footR: foot(0, 0, 0, 1, 0), footL: foot(-0.03, 0.03, 0.23, 0, 55),
+  armR: arms, armL: arms });
+const spun = pose({ spin: 90, drop: 0.05, footR: foot(0.12), footL: foot(-0.12), armR: arm(95, 10, 15, 0, 'spread'), armL: arm(95, 10, 15, 0, 'spread') });
 // 7. Arm wave: a ripple that runs from the left hand, across the shoulders, out the right hand.
 const OUT = arm(90, 0, 0, 0, 'flat');
 const wave = [
@@ -483,52 +487,74 @@ const wave = [
   pose({ armL: OUT, armR: arm(112, 0, 44, 90, 'flat', -30), lean: 3, headTilt: 4 }),
   pose({ armL: OUT, armR: arm(78, 0, 48, -90, 'flat', 30), lean: 2 }),
   pose({ armL: OUT, armR: OUT }),
-  pose({ armL: arm(60, 0, 20), armR: arm(60, 0, 20), drop: 0.03 }),
 ];
-// 8. Walk like an Egyptian, in profile, then a side kick to finish.
+// 8. Walk like an Egyptian in profile, turn and walk back, then a side kick to finish.
 const egyptian = pose({ yaw: 90, x: 0, hipTilt: 4, drop: 0.03, footR: foot(0.08, 0.1), footL: foot(-0.08, -0.08, 0, 0.6),
   armR: arm(70, -90, 90, 0, 'flat', -80), armL: arm(90, 90, 90, 0, 'flat', -80) });
+const egyptianStep = { ...egyptian, hipTilt: -4, footR: foot(0.08, -0.08, 0, 0.6), footL: foot(-0.08, 0.1) };   // the other foot forward
 const finish = pose({ yaw: -10, x: -0.05, hipTilt: -8, lean: 8, headTilt: 5, drop: 0.005, footR: foot(0.34, 0, 0.22), footL: foot(-0.12),
   armR: arm(150, 10, 0, 0, 'point'), armL: arm(95, 0, 10) });
 
 const KEYS = [
   [0, step], [1, touch], [2, mirror(step)], [3, mirror(touch)],
   [4, discoUp], [5, discoDown], [6, discoUp], [7, discoDown],
-  [8, floss], [8.5, mirror(floss)], [9, floss], [9.5, mirror(floss)], [10, floss], [10.5, mirror(floss)], [11, floss], [11.5, mirror(floss)],
+  [8, floss], [8.5, mirror(floss)], [9, floss], [9.5, mirror(floss)], [10, floss], [10.5, mirror(floss)], [11, floss],
   [12, letterY], [13, letterM], [14, letterC], [15, letterA],
   [16, stepOn], [17, kneeUp], [18, mirror(stepOn)], [19, mirror(kneeUp)],
-  [20, squat], [20.5, star], [21, land], [21.5, prep], [22, pirouette(90)], [22.5, pirouette(180)], [23, pirouette(270)], [23.5, spun],
+  [20, squat], [20.5, star], [21, land], [21.5, prep], [22, pirouette(90, ROUNDED)], [22.5, pirouette(180, OVERHEAD)], [23, pirouette(270, OVERHEAD)], [23.5, spun],
   ...wave.map((w, i) => [24 + i / 2, w]),
-  [28, egyptian], [29, mirror(egyptian)], [30, egyptian], [30.5, mirror(egyptian)],
+  [28, egyptian], [29, egyptianStep], [30, mirror(egyptian)],
   [31, finish],
 ];
 const BEATS = 32;               // length of the routine
-const SNAP = 0.8;               // fraction of the gap spent moving; the rest holds the pose
+const FLOW = 0.6;               // how much speed the figure carries through a key pose (0 stops dead on it)
 const LAG = 0.08;               // how far (in beats) elbows, hands and the head trail the body
 
+// Every value follows a Catmull-Rom curve through the keys, its speed through each key
+// scaled by FLOW, so moves flow into each other instead of stopping and starting.
+// Feet are the exception: they ease to a stop on every key, so planted feet don't skate.
 function poseAt(beat) {
   const b = ((beat % BEATS) + BEATS) % BEATS;
-  let i = KEYS.length - 1;
-  for (let k = 0; k < KEYS.length; k++) if (KEYS[k][0] <= b) i = k;
-  const [t0, from] = KEYS[i], [t1raw, to] = KEYS[(i + 1) % KEYS.length];
-  const t1 = t1raw <= t0 ? t1raw + BEATS : t1raw;
-  const t = to.glide ? (b - t0) / (t1 - t0) : Math.min(1, (b - t0) / (t1 - t0) / SNAP);
-  const s = to.glide ? t : t * t * (3 - 2 * t);
-  const mix = (a, c) => a + (c - a) * s;
-  const mixAll = (a, c) => Object.fromEntries(Object.keys(a).map((k) => [k, Array.isArray(a[k]) ? a[k].map((v, j) => mix(v, c[k][j])) : mix(a[k], c[k])]));
-  const footOf = (a, c) => {
-    const f = mixAll(a, c);
+  const n = KEYS.length;
+  let i = n - 1;
+  for (let k = 0; k < n; k++) if (KEYS[k][0] <= b) i = k;
+  // The keys either side of this moment, and one beyond each, with times unwrapped round the loop.
+  const key = (k) => { const j = ((k % n) + n) % n; return { t: KEYS[j][0] + Math.floor(k / n) * BEATS, p: KEYS[j][1] }; };
+  const [k0, k1, k2, k3] = [key(i - 1), key(i), key(i + 1), key(i + 2)];
+  const gap = k2.t - k1.t, u = (b - k1.t) / gap;
+  const h00 = 2 * u ** 3 - 3 * u ** 2 + 1, h10 = u ** 3 - 2 * u ** 2 + u, h01 = 3 * u ** 2 - 2 * u ** 3, h11 = u ** 3 - u ** 2;
+  const f1 = k1.p.glide ? 1 : FLOW, f2 = k2.p.glide ? 1 : FLOW;
+  const curve = (v0, v1, v2, v3) => h00 * v1 + h01 * v2
+    + h10 * gap * f1 * (v2 - v0) / (k2.t - k0.t) + h11 * gap * f2 * (v3 - v1) / (k3.t - k1.t);
+  const along = (get) => curve(get(k0.p), get(k1.p), get(k2.p), get(k3.p));
+
+  const out = {};
+  for (const name of ['x', 'z', 'drop', 'hipTilt', 'hipTwist', 'lean', 'bend', 'twist', 'headTilt', 'nod', 'turn']) out[name] = along((p) => p[name]);
+  // Turning: the shortest way round between keys, unless a key says how far to spin.
+  const turnTo = (from, to) => to.spin ?? ((((to.yaw - from.yaw) % 360) + 540) % 360) - 180;
+  const y1 = k1.p.yaw, y2 = y1 + turnTo(k1.p, k2.p);
+  out.yaw = curve(y1 - turnTo(k0.p, k1.p), y1, y2, y2 + turnTo(k2.p, k3.p));
+  out.drop += 0.01 * (0.5 + 0.5 * Math.cos(beat * 2 * Math.PI));    // sink into each beat
+
+  const ease = u * u * (3 - 2 * u);
+  const footOf = (side) => {
+    const a = k1.p[side], c = k2.p[side], f = {};
+    for (const name in a) f[name] = a[name] + (c[name] - a[name]) * ease;
     // A foot sliding along the floor picks itself up on the way.
-    if (a.lift < 0.005 && c.lift < 0.005) f.lift += 0.035 * Math.sin(Math.PI * s) * Math.min(1, Math.hypot(c.x - a.x, c.z - a.z) / 0.06);
+    if (a.lift < 0.005 && c.lift < 0.005) f.lift += 0.035 * Math.sin(Math.PI * u) * Math.min(1, Math.hypot(c.x - a.x, c.z - a.z) / 0.06);
     return f;
   };
-  const out = {};
-  for (const key of ['x', 'z', 'drop', 'hipTilt', 'hipTwist', 'lean', 'bend', 'twist', 'headTilt', 'nod', 'turn']) out[key] = mix(from[key], to[key]);
-  const shortest = ((((to.yaw - from.yaw) % 360) + 540) % 360) - 180;
-  out.yaw = from.yaw + (to.spin ?? shortest) * s;
-  out.drop += 0.01 * (0.5 + 0.5 * Math.cos(beat * 2 * Math.PI));    // sink into each beat
-  out.footR = footOf(from.footR, to.footR); out.footL = footOf(from.footL, to.footL);
-  out.armR = mixAll(from.armR, to.armR); out.armL = mixAll(from.armL, to.armL);
+  out.footR = footOf('footR'); out.footL = footOf('footL');
+  const armOf = (side) => {
+    const a = {};
+    for (const name of Object.keys(k1.p[side])) {
+      a[name] = name === 'hand'
+        ? k1.p[side].hand.map((_, j) => Math.min(1, Math.max(0, along((p) => p[side].hand[j]))))
+        : along((p) => p[side][name]);
+    }
+    return a;
+  };
+  out.armR = armOf('armR'); out.armL = armOf('armL');
   return out;
 }
 
