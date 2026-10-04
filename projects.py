@@ -4,7 +4,7 @@ GAMEBOX = "Immersive Gamebox"
 GAMEBOX_ROLE = "Lead designer · Director of Experience Design"
 GAMEBOX_TECH = ["Motion tracking", "LiDAR touch walls", "Projection"]
 # Shown on every Gamebox game: it's for the whole company, not one game.
-GAMEBOX_STATS = [("2 million+", "players worldwide, across all Immersive Gamebox games")]
+GAMEBOX_STATS = [("2 million+", "players worldwide, across all Immersive Gamebox games"), ("29", "Immersive Gamebox locations worldwide"), ("24,500", "five-star reviews")]
 
 PROJECTS = [
     {
