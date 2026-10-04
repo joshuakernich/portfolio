@@ -273,7 +273,14 @@ PROJECTS = [
         "summary": "A mental-health arcade game where your group decides what a pixel bunny thinks.",
         "about": [
             "In The Thought that Counts, a group plays together to choose the thoughts of a pixel bunny going through a mental-health crisis. Players see how their choices shape its view of the world, how it falls into despair, and how friendship and love can pull it back.",
-            "It ran as a pop-up installation at Adelaide Fringe and Adelaide City Library.",
+        ],
+        "installations": [
+            ("Adelaide Fringe 2021",
+             "A pop-up arcade in a tent inside the Black Box Theatre, where small groups played 15-minute sessions with a host. Funded by a $10,000 SA Arts grant, it won a weekly prize for Best Interactive Art.",
+             ("Review", "https://mindshare.org.au/review-the-thought-that-counts/")),
+            ("Mental Health Month, Adelaide City Library, October 2021",
+             "A free installation at the library through Mental Health Month.",
+             ("CityMag feature", "https://www.indailysa.com.au/citymag/archive/2021/10/22/mind-invaders-the-arcade-game-offering-lessons-in-mental-health")),
         ],
         "did": [
             "Designed and programmed the whole game",

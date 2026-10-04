@@ -163,6 +163,11 @@ def project_page(p, i):
     about = "".join(f"<p>{e(x)}</p>" for x in p["about"])
     did = "".join(f"<li>{e(x)}</li>" for x in p["did"])
     award = f'<p class="award">🏆 {e(p["award"])}</p>' if p.get("award") else ""
+    installs = ""
+    if p.get("installations"):
+        rows = "".join(f'<li><b>{e(t)}</b><span>{e(d)}</span><a class="link" href="{e(u)}">{e(label)} ↗</a></li>'
+                       for t, d, (label, u) in p["installations"])
+        installs = f'<section><h2 class="pixel small">Installations</h2><ul class="installs">{rows}</ul></section>'
     stats = ""
     if p.get("stats"):
         tiles = "".join(f"<div><dt>{e(n)}</dt><dd>{e(t)}</dd></div>" for n, t in p["stats"])
@@ -193,6 +198,7 @@ def project_page(p, i):
     {award}
     {stats}
     <section><h2 class="pixel small">The game</h2>{about}</section>
+    {installs}
     <section><h2 class="pixel small">What I did</h2><ul class="did">{did}</ul></section>
     <div class="cta">{links}</div>
   </div>
