@@ -321,7 +321,8 @@ PROJECTS = [
         ],
         "gallery": ["ahead-of-the-game-1.jpg", "ahead-of-the-game-2.jpg", "ahead-of-the-game-3.jpg"],
         "links": [
-            ("Get The Challenge on Google Play", "https://play.google.com/store/apps/details?id=com.movember.aotg.mhr"),
+            ("The Challenge on the App Store", "https://apps.apple.com/au/app/ahead-of-the-game/id1543822434"),
+            ("On Google Play", "https://play.google.com/store/apps/details?id=com.movember.aotg.mhr"),
             ("Ahead of the Game", "https://aheadofthegame.movember.com/about/"),
         ],
     },
