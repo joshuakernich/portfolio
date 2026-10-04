@@ -20,12 +20,13 @@ PROJECTS = [
         "stats": GAMEBOX_STATS,
         "colour": "yellow",
         "hero": "batman-hero.jpg",
-        "summary": "A one-hour co-op adventure in the Batcave: solve puzzles, battle villains and drive the Batmobile to save Gotham.",
+        "summary": "A one-hour co-op adventure across Gotham City: solve puzzles, battle villains and drive the Batmobile to save Gotham.",
         "about": [
-            "Batman is a full-hour cooperative adventure for a Gamebox room. Players team up in the Batcave to solve puzzles, fight Gotham's villains and take the wheel of the Batmobile, all through 3D graphics and animated storytelling that respond to their movement around the room.",
+            "Batman is a full-hour cooperative adventure for a Gamebox room. Players team up across Gotham City to solve puzzles, fight its villains and take the wheel of the Batmobile, all through 3D graphics and animated storytelling that respond to their movement around the room.",
         ],
         "did": [
             "Designed the end-to-end storyboard, game, narrative and player experience, and wrote the full design documents",
+            "Wrote the story and every line of dialogue",
             "Created and tested a range of prototypes for the key mechanics: puzzles, fights and the Batmobile",
             "Guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
@@ -78,6 +79,7 @@ PROJECTS = [
         ],
         "did": [
             "Designed the end-to-end storyboard, games, narrative and player experience across five mini-games",
+            "Wrote the original story and all of the dialogue",
             "Created and tested a range of prototypes for the key mechanics of human-sized Tetris",
             "Set the 1991 art direction, and guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
@@ -106,6 +108,7 @@ PROJECTS = [
         ],
         "did": [
             "Designed the end-to-end storyboard, game, narrative and player experience, from the mystery to the puzzles",
+            "Wrote the mystery and all of the dialogue",
             "Created and tested a range of prototypes for the key mechanics and the puzzle chain",
             "Guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
@@ -130,6 +133,7 @@ PROJECTS = [
         ],
         "did": [
             "Designed the end-to-end storyboard, game, narrative and player experience, level by level up the volcano",
+            "Wrote the narrative and all of the dialogue",
             "Created and tested a range of prototypes for the key movement mechanics, balancing the challenge for families and mixed-age groups",
             "Guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
@@ -155,6 +159,7 @@ PROJECTS = [
         ],
         "did": [
             "Designed the end-to-end storyboard, games, narrative and player experience, including the room-scale scoreboard and HUD",
+            "Wrote the narrative and all of the dialogue",
             "Created and tested a range of prototypes for the key mechanics: ball physics and team play",
             "Guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
@@ -179,6 +184,7 @@ PROJECTS = [
         ],
         "did": [
             "Designed the end-to-end storyboard, games, narrative and player experience, from the session flow to the leaderboard",
+            "Wrote the narrative and all of the dialogue",
             "Created and tested a range of prototypes for the key mechanics, and playtested each game with real groups",
             "Guided art, animation and technical implementation throughout",
             "Managed the development team from design through to delivery",
