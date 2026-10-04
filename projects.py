@@ -376,13 +376,15 @@ PROJECTS = [
         "stats": [("8,000+", "people have used it, across multiple countries")],
         "about": [
             "GripAble is a handheld rehabilitation device that grew out of research at Imperial College London. Force and motion sensors pick up grip, release and wrist movement, so patients with weakness in the hand, wrist or arm can do their therapy by playing games on a tablet, while they and their clinicians track progress.",
+            "The games include Balloon Buddies, Circus Escape, Pigeon Hunter, Little Rocket, Pixelated, Concierge, Pufferfish and Four in a Row, GripAble's first multiplayer game.",
         ],
         "did": [
             "Designed the app experience for patients and clinicians",
             "Designed games and interfaces controlled entirely by grip and wrist movement",
             "Designed for users with limited mobility, where every input costs effort",
         ],
-        "gallery": ["gripable-6.jpg", "gripable-hero.jpg", "gripable-7.jpg", "gripable-2.jpg", "gripable-8.jpg", "gripable-9.jpg", "gripable-3.jpg", "gripable-4.jpg", "gripable-5.jpg"],
+        "gallery": ["gripable-balloon-buddies.png", "gripable-circus-escape.png", "gripable-pigeon-hunter.png", "gripable-little-rocket.png",
+                    "gripable-four-in-a-row.png", "gripable-hero.jpg", "gripable-7.jpg", "gripable-8.jpg", "gripable-9.jpg"],
         "links": [("GripAble", "https://gripable.co/")],
     },
 ]
