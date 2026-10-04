@@ -327,6 +327,8 @@ PROJECTS = [
         "about": [
             "Movember Conversations is a free online tool that helps people feel more confident talking with a man in their life who might be struggling. Users pick a scenario, such as job loss, social isolation or family pressure, and work through a simulated conversation, choosing what to say at each step and seeing where it leads.",
             "It's built on the ALEC framework from R U OK? (Ask, Listen, Encourage action, Check in) and was developed with mental-health experts.",
+            "The need is real. Movember's research with 3,000 men in the UK, Australia and Canada found that 77% see talking as a good way to solve problems, but 41% have regretted opening up to someone, which suggests those conversations didn't give them what they needed.",
+            "For five years Movember has partnered with Pringles to bring people to the tool: millions of Pringles cans have carried a scannable moustache that opens Movember Conversations.",
         ],
         "did": [
             "Designed the interactive conversation format and the branching dialogue",
@@ -334,7 +336,10 @@ PROJECTS = [
             "Designed the learning experience across the scenarios",
         ],
         "gallery": ["movember-conversations-1.jpg", "movember-conversations-2.jpg"],
-        "links": [("Try Movember Conversations", "https://conversations.movember.com/en/")],
+        "links": [
+            ("Try Movember Conversations", "https://conversations.movember.com/en/"),
+            ("The Pringles partnership", "https://movember.com/news/5-years-of-conversations-powered-by-pringles"),
+        ],
     },
     {
         "slug": "family-man",
