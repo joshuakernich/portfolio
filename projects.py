@@ -319,7 +319,8 @@ PROJECTS = [
             "Worked with men's psychologists to get the content right",
             "Worked with Movember's development and creative teams",
         ],
-        "gallery": ["ahead-of-the-game-1.jpg", "ahead-of-the-game-2.jpg", "ahead-of-the-game-3.jpg"],
+        "gallery": ["aotg-challenge-1.jpg", "aotg-challenge-2.jpg", "aotg-challenge-3.jpg", "aotg-challenge-4.jpg"],
+        "gallery_tall": True,
         "links": [
             ("The Challenge on the App Store", "https://apps.apple.com/au/app/ahead-of-the-game/id1543822434"),
             ("On Google Play", "https://play.google.com/store/apps/details?id=com.movember.aotg.mhr"),
