@@ -316,7 +316,7 @@ PROJECTS = [
         "year": "2021",
         "tech": ["Branching dialogue", "Interactive scenarios", "Web"],
         "colour": "orange",
-        "hero": "conversations-hero.jpg",
+        "hero": "conversations-banner.png",
         "summary": "Practise the hard conversation before you have it: simulated chats with a mate who's struggling.",
         "stats": [
             ("650,000+", "unique users"),
